@@ -47,7 +47,7 @@ pipeline{
 
                 withAWS(credentials:'awsAKIA6JPPVFU3AX6YK47O', region: 'eu-central-1'){
                 sh 'pwd'
-                dir ('./Terraform/environments/dev')
+                dir ('Terraform/environments/dev')
                 sh 'terraform workspace new dev'
                 sh 'terraform init'
                 sh 'terraform plan -out tfplan'
