@@ -44,6 +44,12 @@ pipeline{
         stage("deploy"){
             agent any
             steps{
+                sh script: """\
+                if ! command -v terraform &> /dev/null
+                then
+                wget https://releases.hashicorp.com/terraform/1.2.9/terraform_1.2.9_linux_amd64.zip
+                unzip terraform_1.2.9_linux_amd64.zip -d /usr/local/bin
+                fi"""
                 git branch: 'main', url: 'https://git.epam.com/mykhailo_lopaiev/pet-project-aws-and-ci-cd', credentialsId: 'github-deploy'
                 echo "========Uploading to s3========"
                 echo "copying to s3"
