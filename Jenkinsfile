@@ -61,13 +61,14 @@ pipeline{
                 //sh 'terraform plan -out tfplan'
                 //sh 'terraform apply tfplan'
                 sh 'terraform output -raw data_bucket_name'
-                }
+                
                 script{
                 artifact_bucket = sh(returnStdout: true, script: 'terraform output -raw data_bucket_name').trim().readLines().drop(1).join(" ")
                 sh 'echo ${artifact_bucket}'
                 }
                 unstash 'builded_war'
                 s3Upload(file:'helloworld.war', bucket:"${artifact_bucket}", path:'build/helloworld.war')
+                }
                 }
             }
         }
