@@ -12,6 +12,9 @@ def artifact_bucket = 'default'
 
 pipeline{
     agent none
+    tools{
+        terraform 'terraform'
+    }
     stages{
         stage("build"){
             agent{
