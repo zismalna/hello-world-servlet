@@ -5,9 +5,10 @@
     string(name: 'commit_sha', defaultValue: ''),
   ])
 ])
+def artifact_bucket = 'default'
  */
 
-def artifact_bucket = 'default'
+
 
 pipeline{
     agent none
@@ -40,7 +41,7 @@ pipeline{
         stage("deploy"){
             agent any
             steps{
-                git branch: 'main', url: 'https://git.epam.com/mykhailo_lopaiev/pet-project-aws-and-ci-cd', credentialsID: 'github-deploy'
+                git branch: 'main', url: 'https://git.epam.com/mykhailo_lopaiev/pet-project-aws-and-ci-cd', credentialsId: 'github-deploy'
                 echo "========Uploading to s3========"
                 echo "copying to s3"
 
@@ -50,9 +51,9 @@ pipeline{
                 sh 'terraform init'
                 sh 'terraform plan -out tfplan'
                 sh 'terraform apply tfplan'
-                artifact_bucket = sh(returnStdout: true, script: 'terraform output -raw data_bucket_name')
+                def artifact_bucket = sh(returnStdout: true, script: 'terraform output -raw data_bucket_name')
                 unstash 'builded_war'
-                s3Upload(file:'helloworld.war', bucket:${artifact_bucket}, path:'build/helloworld.war')
+                s3Upload(file:'helloworld.war', bucket:"${artifact_bucket}", path:'build/helloworld.war')
                 }
             }
         }
