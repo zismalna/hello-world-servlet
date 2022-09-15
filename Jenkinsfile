@@ -67,7 +67,7 @@ pipeline{
                 sh 'echo ${artifact_bucket}'
                 }
                 unstash 'builded_war'
-                s3Upload(file:'helloworld.war', bucket:"${artifact_bucket}", path:'build/helloworld.war')
+                s3Upload(file:'helloworld.war', bucket:"${artifact_bucket}", workingDir:'build')
                 }
                 }
             }
