@@ -63,7 +63,7 @@ pipeline{
                 sh 'terraform output -raw data_bucket_name'
                 }
                 script{
-                def artifact_bucket = sh(returnStdout: true, script: 'terraform output -raw data_bucket_name').trim()
+                def artifact_bucket = sh(returnStdout: true, script: 'terraform output -raw data_bucket_name').trim().readLines().drop(1).join(" ")
                 sh 'echo ${artifact_bucket}'
                 }
                 unstash 'builded_war'
