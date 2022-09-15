@@ -58,12 +58,13 @@ pipeline{
                 dir ('Terraform/environments/dev'){
                 sh 'terraform init'
                 sh 'terraform workspace select dev'
-                sh 'terraform plan -out tfplan'
-                sh 'terraform apply tfplan'
+                //sh 'terraform plan -out tfplan'
+                //sh 'terraform apply tfplan'
+                sh 'terraform output -raw data_bucket_name'
                 }
                 script{
-                def artifact_bucket = sh(returnStdout: true, script: 'terraform output -raw data_bucket_name')
-                sh 'echo "${artifact_bucket}"'
+                def artifact_bucket = sh(returnStdout: true, script: 'terraform output -raw data_bucket_name').trim()
+                sh 'echo ${artifact_bucket}'
                 }
                 unstash 'builded_war'
                 s3Upload(file:'helloworld.war', bucket:"${artifact_bucket}", path:'build/helloworld.war')
