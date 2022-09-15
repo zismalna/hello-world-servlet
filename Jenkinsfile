@@ -57,7 +57,7 @@ pipeline{
                 sh 'pwd'
                 dir ('Terraform/environments/dev'){
                 sh 'terraform init'
-                sh 'terraform workspace new dev'
+                sh 'terraform workspace select dev'
                 sh 'terraform plan -out tfplan'
                 sh 'terraform apply tfplan'
                 }
