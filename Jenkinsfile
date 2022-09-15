@@ -63,6 +63,7 @@ pipeline{
                 }
                 script{
                 def artifact_bucket = sh(returnStdout: true, script: 'terraform output -raw data_bucket_name')
+                sh 'echo "${artifact_bucket}"'
                 }
                 unstash 'builded_war'
                 s3Upload(file:'helloworld.war', bucket:"${artifact_bucket}", path:'build/helloworld.war')
