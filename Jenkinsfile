@@ -42,8 +42,10 @@ pipeline{
 
         }
         stage("deploy"){
-            agent docker{
+            agent {
+                docker{
                 image 'hashicorp/terraform:latest'
+                }
             }
             steps{
                 git branch: 'main', url: 'https://git.epam.com/mykhailo_lopaiev/pet-project-aws-and-ci-cd', credentialsId: 'github-deploy'
