@@ -45,8 +45,9 @@ pipeline{
                 echo "========Uploading to s3========"
                 echo "copying to s3"
 
-                withAWS(credentials:'awsAKIA6JPPVFU3AX6YK47O'){
-                dir './Terraform/environments/dev'
+                withAWS(credentials:'awsAKIA6JPPVFU3AX6YK47O', region: 'eu-central-1'){
+                sh 'pwd'
+                dir ('./Terraform/environments/dev')
                 sh 'terraform workspace new dev'
                 sh 'terraform init'
                 sh 'terraform plan -out tfplan'
