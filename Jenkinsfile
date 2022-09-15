@@ -22,7 +22,7 @@ pipeline{
             steps{
                 echo "========Building package========"
                 sh 'mvn -B clean package'
-                stash includes 'helloworld.war', name 'builded_war'
+                stash includes: 'helloworld.war', name: 'builded_war'
             }
             post{
                 always{
