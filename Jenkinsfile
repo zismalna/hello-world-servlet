@@ -45,6 +45,7 @@ pipeline{
             agent {
                 docker{
                 image 'hashicorp/terraform:latest'
+                args  '--entrypoint="" -u root'
                 }
             }
             steps{
