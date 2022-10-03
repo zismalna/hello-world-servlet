@@ -35,14 +35,6 @@ pipeline {
                 }
                         }
 
-                        post {
-                            success {
-                                echo '========Build executed successfully========'
-                            }
-                            failure {
-                                echo '========A execution failed========'
-                            }
-                        }
                     }
                 }
             }
