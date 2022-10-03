@@ -20,16 +20,16 @@ pipeline {
                 echo '========Building package========'
                 withAWS(credentials:'awsAKIA6JPPVFU3AX6YK47O', region: 'eu-central-1') {
                     sh 'pwd'
-                    dir('Terraform/modules/${params.TERRAFORM_MODULE}') {
+                    dir('Terraform/modules/${TERRAFORM_MODULE}') {
                         sh 'terraform init'
-                        sh 'terraform workspace select ${params.AWS_ENV}'
+                        sh 'terraform workspace select ${AWS_ENV}'
                         script {
-                        if ($params.ACTION == 'apply') {
+                        if ($ACTION == 'apply') {
                             sh 'terraform plan -out tfplan'
                             sh 'terraform apply tfplan'
                         }
                         
-                else if ($params.ACTION == 'destroy') {
+                else if ($ACTION == 'destroy') {
                             sh 'terraform plan -destroy -out tfplan'
                             sh 'terraform destroy -auto-approve'
                 }
