@@ -17,9 +17,9 @@ pipeline {
                 echo '========Building package========'
                 withAWS(credentials:'awsAKIA6JPPVFU3AX6YK47O', region: 'eu-central-1') {
                     sh 'pwd'
-                    dir('Terraform/modules/"${params.module}"') {
+                    dir('Terraform/modules/${params.module}') {
                         sh 'terraform init'
-                        sh 'terraform workspace select "${params.AWS_ENV}"'
+                        sh 'terraform workspace select ${params.AWS_ENV}'
                         script {
                         if ($params.ACTION == 'apply') {
                             sh 'terraform plan -out tfplan'
