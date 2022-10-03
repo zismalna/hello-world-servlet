@@ -20,14 +20,17 @@ pipeline {
                     dir('Terraform/modules/$param.module') {
                         sh 'terraform init'
                         sh 'terraform workspace select $params.AWS_ENV'
+                        script {
                         if ($param.ACTION == 'apply') {
                             sh 'terraform plan -out tfplan'
                             sh 'terraform apply tfplan'
                         }
+                        
                 else if ($param.ACTION == 'destroy') {
                             sh 'terraform plan -destroy -out tfplan'
                             sh 'terraform destroy -auto-approve'
                 }
+                        }
 
                         post {
                             success {
