@@ -1,0 +1,41 @@
+pipeline {
+    agent {
+        docker {
+            image 'hashicorp/terraform:latest'
+            args '--entrypoint="" -u root'
+        }
+    }
+    parameters {
+        choice(name: "AWS_ENV", choices: ["dev", "stage"], description: "AWS environment")
+        choice(name: "TERRAFORM_MODULE", choices: ["network", "data"], description: "Terraform module to use")
+        choice(name: "ACTION", choices: ["apply", "destroy"], description: "Set up or destroy environment")
+    }
+    stages {
+        stage('build') {
+            steps {
+                echo '========Building package========'
+                withAWS(credentials:'awsAKIA6JPPVFU3AX6YK47O', region: 'eu-central-1'){
+                sh 'pwd'
+                dir ('Terraform/modules/$param.module'){
+                sh 'terraform init'
+                sh 'terraform workspace select $params.AWS_ENV'
+                if ($param.ACTION == 'apply') {
+                sh 'terraform plan -out tfplan'
+                sh 'terraform apply tfplan'
+                }
+                else if ($param.ACTION == 'destroy') {
+                    sh 'terraform plan -destroy -out tfplan'
+                    sh 'terraform destroy -auto-approve'
+                }
+
+            post {
+                success {
+                    echo '========Build executed successfully========'
+                }
+                failure {
+                    echo '========A execution failed========'
+                }
+            }
+        }
+    }
+}
