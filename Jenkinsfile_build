@@ -26,7 +26,6 @@ pipeline {
                 steps {
                 archiveArtifacts artifacts: 'target/helloworld.war'
                 }
-            }
             post {
                 always {
                     echo '========always========'
@@ -40,4 +39,4 @@ pipeline {
             }
         }
     }
-
+}
