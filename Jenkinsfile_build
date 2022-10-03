@@ -5,46 +5,38 @@ pipeline {
             args '-v /root/.m2:/root/.m2'
         }
     }
+
     stages {
         stage('build') {
             steps {
-                echo '========Building package========'
                 sh 'mvn -B clean package'
-                }
+            }
         }
-            stage('Test') {
-                steps {
-                    sh 'mvn test'
-                }
-                post {
-                    always {
-                        junit 'target/surefire-reports/*.xml'
-                    }
-                }
+        stage('Test') {
+            steps {
+                sh 'mvn test'
+                s3_upload('target/helloworld.war')
             }
-script {
-            if (env.BRANCH_NAME == 'master'){
-            stage('Save artifact') {
-                steps {
-                withAWS(credentials:'awsAKIA6JPPVFU3AX6YK47O', region: 'eu-central-1'){
-                s3Upload(file:'target/helloworld.war', bucket:'petproject-statefiles-20220826162224902600000001', path:'stage')
-                }
-                }
-            }
-            }
-}
-    }
             post {
                 always {
-                    echo '========always========'
-                }
-                success {
-                    echo '========Build executed successfully========'
-                }
-                failure {
-                    echo '========A execution failed========'
+                    junit 'target/surefire-reports/*.xml'
                 }
             }
         }
-    
+    }
+}
 
+def s3_upload(file) {
+    bucket = 'petproject-statefiles-20220826162224902600000001'
+    region = 'eu-central-1'
+    credentials = 'awsAKIA6JPPVFU3AX6YK47O'
+    if (env.BRANCH_NAME == 'master') {
+        path = 'stage'
+    }
+    else if (env.BRANCH_NAME == 'develop') {
+        path = 'dev'
+    }
+    withAWS(credentials: credentials, region: region) {
+        s3Upload(file: file, bucket: bucket, path: path)
+    }
+}
