@@ -22,10 +22,16 @@ pipeline {
                     }
                 }
             }
+
+            if (env.BRANCH_NAME == 'master'){
             stage('Save artifact') {
                 steps {
-                archiveArtifacts artifacts: 'target/helloworld.war'
+                withAWS(credentials:'awsAKIA6JPPVFU3AX6YK47O', region: 'eu-central-1'){
+                s3Upload(file:'target/helloworld.war', bucket:"petproject-statefiles-20220826162224902600000001" path:'stage')
                 }
+                }
+            }
+            }
             post {
                 always {
                     echo '========always========'
@@ -39,4 +45,4 @@ pipeline {
             }
         }
     }
-}
+
