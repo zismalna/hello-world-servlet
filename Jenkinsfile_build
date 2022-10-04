@@ -21,7 +21,8 @@ pipeline {
         stage('Upload') {
             steps {
                 println env.BRANCH_NAME
-                echo env.getEnvironment()
+                echo env.environment
+               // echo env.getEnvironment()
                 s3_upload('target/helloworld.war')
             }
         }
