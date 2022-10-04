@@ -31,8 +31,8 @@ def s3_upload(file) {
     region = 'eu-central-1'
     credentials = 'awsAKIA6JPPVFU3AX6YK47O'
     env_map = [
-        'master': 'stage',
-        'develop': 'dev'
+        'master': 'stage/helloworld.war',
+        'develop': 'dev/helloworld.war'
     ]
     for (entry in env_map) {
         if (env.BRANCH_NAME == entry.key) {
