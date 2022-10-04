@@ -20,6 +20,7 @@ pipeline {
 
         stage('Upload') {
             steps {
+                println env.BRANCH_NAME
                 s3_upload('target/helloworld.war')
             }
         }
