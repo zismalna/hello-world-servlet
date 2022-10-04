@@ -35,8 +35,8 @@ def s3_upload(file) {
         'develop': 'dev'
     ]
     for (kv in env_map) {
-        if (env.BRANCH_NAME == ${k}) {
-            path = ${v}
+        if (env.BRANCH_NAME == k) {
+            path = v
             sh 'echo ${path}'
     }
 }
