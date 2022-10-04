@@ -34,9 +34,10 @@ def s3_upload(file) {
         'master': 'stage',
         'develop': 'dev'
     ]
-    for (element in env_map) {
-        if (env.BRANCH_NAME == ${element.key}) {
-            path = ${element.value}
+    for (kv in env_map) {
+        if (env.BRANCH_NAME == ${k}) {
+            path = ${v}
+            sh 'echo ${path}'
     }
 }
     // if (env.BRANCH_NAME == 'master') {
