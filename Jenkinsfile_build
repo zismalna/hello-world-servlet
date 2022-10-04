@@ -30,15 +30,15 @@ def s3_upload(file) {
     bucket = 'petproject-statefiles-20220826162224902600000001'
     region = 'eu-central-1'
     credentials = 'awsAKIA6JPPVFU3AX6YK47O'
-    def env_map = [
-        master: "stage",
-        develop: "dev"
+    env_map = [
+        'master': 'stage',
+        'develop': 'dev'
     ]
-    for (element in env_map){
-    if (env.BRANCH_NAME == ${element.key}){
-    path = ${element.value}
+    for (element in env_map) {
+        if (env.BRANCH_NAME == ${element.key}) {
+            path = ${element.value}
     }
-    }
+}
     // if (env.BRANCH_NAME == 'master') {
     //     path = 'stage'
     // }
