@@ -20,8 +20,8 @@ pipeline {
 
         stage('Upload') {
             steps {
-                println env.BRANCH_NAME
-                echo env.environment
+                println BRANCH_NAME
+                echo environment
                // echo env.getEnvironment()
                 s3_upload('target/helloworld.war')
             }
@@ -38,7 +38,7 @@ def s3_upload(file) {
         'develop': 'dev/helloworld.war'
     ]
     for (entry in env_map) {
-        if (env.BRANCH_NAME == entry.key) {
+        if (BRANCH_NAME == entry.key) {
             path = entry.value
             println path
     }
