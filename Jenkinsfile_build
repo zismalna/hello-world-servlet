@@ -38,6 +38,7 @@ def s3_upload(file) {
     if (env.BRANCH_NAME == ${element.key}){
     path = ${element.value}
     }
+    }
     // if (env.BRANCH_NAME == 'master') {
     //     path = 'stage'
     // }
