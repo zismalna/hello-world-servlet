@@ -37,7 +37,7 @@ def s3_upload(file) {
         'origin/develop': 'dev/helloworld.war'
     ]
     for (entry in env_map) {
-        if ("$GIT_BRACH" == entry.key) {
+        if ("${GIT_BRANCH}" == entry.key) {
             path = entry.value
         }
     }
