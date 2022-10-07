@@ -22,7 +22,7 @@ pipeline {
             steps {
                 sh 'env'
                 println env.GIT_BRACH
-                println GIT_BRACH
+                println $GIT_BRACH
                 s3_upload('target/helloworld.war')
             }
         }
