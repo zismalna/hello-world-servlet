@@ -2,7 +2,7 @@ pipeline {
     agent {
         docker {
             image 'maven:3.8.1-adoptopenjdk-11'
-            args '-v /root/.m2:/root/.m2'
+            args '-v /root/.m2:/root/.m2 -e BRANCH_NAME=$env.BRANCH_NAME'
         }
     }
 
@@ -38,7 +38,7 @@ def s3_upload(file) {
         'develop': 'dev/helloworld.war'
     ]
     for (entry in env_map) {
-        if (env.GIT_BRANCH == entry.key) {
+        if (env.BRANCH_NAME == entry.key) {
             path = entry.value
             println path
     }
