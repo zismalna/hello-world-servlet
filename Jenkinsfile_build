@@ -22,7 +22,6 @@ pipeline {
             steps {
                 sh 'env'
                 println env.GIT_BRACH
-                println "${GIT_BRACH}"
                 s3_upload('target/helloworld.war')
             }
         }
@@ -38,7 +37,7 @@ def s3_upload(file) {
         'origin/develop': 'dev/helloworld.war'
     ]
     for (entry in env_map) {
-        if (env.GIT_BRACH == entry.key) {
+        if ("$GIT_BRACH" == entry.key) {
             path = entry.value
         }
     }
