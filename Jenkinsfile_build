@@ -2,7 +2,7 @@ pipeline {
     agent {
         docker {
             image 'maven:3.8.1-adoptopenjdk-11'
-            args '-v /root/.m2:/root/.m2 -e BRANCH_NAME=$env.BRANCH_NAME'
+            args '-v /root/.m2:/root/.m2 -e BRANCH_NAME=${env.BRANCH_NAME}'
         }
     }
 
@@ -20,6 +20,7 @@ pipeline {
 
         stage('Upload') {
             steps {
+                sh 'env'
                 println env.BRANCH
                 echo env.ENVIRONMENT
                // echo env.getEnvironment()
