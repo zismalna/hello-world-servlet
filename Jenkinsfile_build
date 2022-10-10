@@ -38,8 +38,8 @@ def s3_upload(file) {
     region = 'eu-central-1'
     credentials = 'aws_cred'
     env_map = [
-        'origin/master': 'stage/helloworld.war',
-        'origin/develop': 'dev/helloworld.war'
+        'master': 'stage/helloworld.war',
+        'develop': 'dev/helloworld.war'
     ]
     for (entry in env_map) {
         if ("${GIT_BRANCH}" == entry.key) {
