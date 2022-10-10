@@ -21,8 +21,11 @@ pipeline {
         stage('Upload') {
             when {
                 anyOf {
-                    branch 'origin/master'
-                    branch 'origin/develop'
+                    for (entry in env_map) {
+                        expression {
+                            return  "${GIT_BRANCH}" == entry.key
+                        }
+                    }
                 }
             }
             steps {
