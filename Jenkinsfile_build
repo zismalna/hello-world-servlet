@@ -27,6 +27,7 @@ pipeline {
                 }
             steps {
                 s3_upload('target/helloworld.war')
+                sh 'env'
             }
         }
     }
