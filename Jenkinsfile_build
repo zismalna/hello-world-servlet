@@ -21,13 +21,10 @@ pipeline {
         stage('Upload') {
             when {
                 anyOf {
-                    for (entry in env_map) {
-                        expression {
-                            return  "${GIT_BRANCH}" == entry.key
-                        }
+                    branch 'master'
+                    branch 'develop'
                     }
                 }
-            }
             steps {
                 s3_upload('target/helloworld.war')
             }
