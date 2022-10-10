@@ -19,9 +19,13 @@ pipeline {
         }
 
         stage('Upload') {
+            when {
+                anyOf {
+                    branch 'master'
+                    branch 'develop'
+                }
+            }
             steps {
-                sh 'env'
-                println env.GIT_BRACH
                 s3_upload('target/helloworld.war')
             }
         }
@@ -31,7 +35,7 @@ pipeline {
 def s3_upload(file) {
     bucket = 'petproject-statefiles-20220826162224902600000001'
     region = 'eu-central-1'
-    credentials = 'awsAKIA6JPPVFU3AX6YK47O'
+    credentials = 'aws_cred'
     env_map = [
         'origin/master': 'stage/helloworld.war',
         'origin/develop': 'dev/helloworld.war'
@@ -41,14 +45,7 @@ def s3_upload(file) {
             path = entry.value
         }
     }
-    // if (env.BRANCH_NAME == 'master') {
-    //     path = 'stage'
-    // }
-    // else if (env.BRANCH_NAME == 'develop') {
-    //     path = 'dev'
-    // }
     withAWS(credentials: credentials, region: region) {
         s3Upload(file: file, bucket: bucket, path: path)
     }
-    println path
 }
